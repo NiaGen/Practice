@@ -6,10 +6,12 @@ public class EnemyController : GenericMovement {
 
 	private Rigidbody2D enemy;
 	private float direction;
+	private Animator enemyAnimator;
 
 	// Use this for initialization
 	protected override void Start () {
 		enemy = GetComponent<Rigidbody2D>();
+		enemyAnimator = GetComponent<Animator> ();
 		direction = 1.0f;
 		InvokeRepeating ("ChangeDirection", 2.0f, 2.0f);
 		base.Start ();
@@ -32,6 +34,8 @@ public class EnemyController : GenericMovement {
 			direction = 1.0f;
 		}
 	}
+
+
 
 	protected override void Flip()
 	{

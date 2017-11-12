@@ -9,7 +9,7 @@ public class GenericMovement : MonoBehaviour {
 	private Rigidbody2D player;
 	public bool directionR = true;
 	private Animator animator;
-	private bool jumpCheck;
+	private bool isJumping;
 
 
 	// Use this for initialization
@@ -24,7 +24,6 @@ public class GenericMovement : MonoBehaviour {
 	}
 */
 	void FixedUpdate () {
-		float moveVert = Input.GetAxisRaw ("Vertical");
 		float move = Input.GetAxisRaw ("Horizontal");
 		if (move != 0.0f) {
 			animator.SetFloat("Player_run", 1.0f);
@@ -32,9 +31,7 @@ public class GenericMovement : MonoBehaviour {
 			animator.SetFloat("Player_run", 0.0f);
 		}
 
-//		if (jumpCheck == false) {
-			player.velocity = new Vector2 (move * speed, player.velocity.y);
-//		}
+		player.velocity = new Vector2 (move * speed, player.velocity.y);
 
 		if (move > 0 && !directionR) {
 			Flip ();
@@ -43,9 +40,9 @@ public class GenericMovement : MonoBehaviour {
 			Flip ();
 		}
 			
-		if (Input.GetKeyDown ("space") && jumpCheck == false) {
+		if (Input.GetKeyDown ("space") && isJumping == false) {
 			player.velocity = new Vector2 (player.velocity.x,jumpHeight); 
-			jumpCheck = true;
+			isJumping = true;
 			animator.SetBool("Player_jump", true);
 		}
 
@@ -59,16 +56,20 @@ public class GenericMovement : MonoBehaviour {
 		transform.localScale = theScale;
 	}
 
-	void OnCollisionEnter2D(Collision2D hit)
+	void OnCollisionEnter2D(Collision2D collider)
 	{
-		if (hit.gameObject.CompareTag ("Ground"))
+		if (collider.gameObject.CompareTag ("Ground"))
 		{
-			jumpCheck = false;
+			isJumping = false;
 			animator.SetBool("Player_jump", false);
 		}
 	}
-	void OnCollisionExit2D(Collision2D nohit)
+/*	void OnCollisionExit2D(Collision2D collider)
 	{
-		jumpCheck = true;
-	}
+		if (collider.gameObject.CompareTag ("Ground"))
+		{
+			isJumping = true;
+			animator.SetBool("Player_jump", true);
+		}
+	}*/
 }
