@@ -6,9 +6,10 @@ public class PlayerController : MonoBehaviour {
 
 	private Animator animator;
 	private Rigidbody2D player;
-	private int collectedItems;
-	private int lifes;
+	private int collectedGems;
+	private int collectedCherrys;
 	private bool onLadder;
+	private int lifes;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 			animator.SetBool ("Player_hurt", true);
 			Destroy(player.GetComponent<BoxCollider2D>());
 			player.constraints = RigidbodyConstraints2D.FreezeAll;
+			lifes--;
 		}
 		else
 		{
@@ -49,12 +51,21 @@ public class PlayerController : MonoBehaviour {
 			Destroy (collider.gameObject, 1);
 			player.velocity = new Vector2 (player.velocity.x, 3.0f);
 		}
-		if (collider.gameObject.CompareTag ("Item"))
+		if (collider.name == "Gem")
 		{
-			collectedItems++;
+			collectedGems++;
 			collider.GetComponent<Animator>().Play ("Collected");
 			Destroy (collider.gameObject, 0.6f);
 		}
-		if(collider.name == "Player")
+		if (collider.name == "Cherry")
+		{
+			collectedCherrys++;
+			collider.GetComponent<Animator>().Play ("Collected");
+			Destroy (collider.gameObject, 0.6f);
+		}
+		if (collider.gameObject.CompareTag ("Ladder"))
+		{
+			onLadder = true;
+		}
 	}
 }
