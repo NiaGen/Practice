@@ -47,21 +47,26 @@ public class GenericMovement : MonoBehaviour {
 		}
 
 		//Jumping and it's animation
-		if (Input.GetKeyDown ("space") && isJumping == false) {
+		if (Input.GetKey ("space") && isJumping == false) {
 			player.velocity = new Vector2 (player.velocity.x,jumpHeight); 
 			isJumping = true;
 			animator.SetBool("Player_jump", true);
 		}
 
+        if (!isJumping)
+        {
+            animator.SetBool("Player_jump", false);
+        }
+
 		//Vertical moving for ladders with it's animation
 		float moveVertical = Input.GetAxisRaw ("Vertical");
-		if (onLadder == true) {
+		if (onLadder) {
 			player.gravityScale = 0;
 			player.velocity = new Vector2 (player.velocity.x, moveVertical * speed);
 			if (moveVertical != 0.0f) {
 				animator.SetBool ("Player_climb", true);
 			}
-		} else if(onLadder == false){
+		} else if(!onLadder){
 			player.gravityScale = gravityStorage;
 			animator.SetBool("Player_climb", false);
 		}
@@ -81,7 +86,6 @@ public class GenericMovement : MonoBehaviour {
 		if (collider.gameObject.CompareTag ("Ground"))
 		{
 			isJumping = false;
-			animator.SetBool("Player_jump", false);
 		}
 	}
 /*		//Checking if not in the air for ability to jump

@@ -8,7 +8,6 @@ public class GameController : MonoBehaviour {
 
 	public static GameController instance;
 
-	public bool keyPressed;
 	private int collectedGems;
 	private int collectedCherrys;
 	private int lifes;
@@ -18,10 +17,13 @@ public class GameController : MonoBehaviour {
 	private Text haveCherrys;
 	[SerializeField]
 	private Text haveLifes;
+	private Scene thisScene;
+
 
 	void Awake(){
 		Instancenate ();
 		CalculateItems ();
+		thisScene = SceneManager.GetActiveScene ();
 	}
 
 
@@ -32,32 +34,55 @@ public class GameController : MonoBehaviour {
 	void OnDisable(){
 		SceneManager.sceneLoaded -= LevelIsLoaded;
 	}
-	void LevelIsLoaded(Scene scene, LoadSceneMode sceneMode){
-		if (scene.name == "Level_1") {
-			if (!GameManager.instance.needToRespawn) {
-				collectedGems = 0;
-				collectedCherrys = 90;
-				lifes = 3;
+	void LevelIsLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
+		if (scene.name == thisScene.name)
+        {
+			if (!GameManager.instance.playerIsPoped && !GameManager.instance.levelComplited) {
+				NewGameValues ();
 			} else {
-				collectedGems = GameManager.instance.collectedGems;
-				collectedCherrys = GameManager.instance.collectedCherrys;
-				lifes = GameManager.instance.lifes;
+				ContinueGameValues ();
 			}
 			CalculateItems ();
+			if (!GameManager.instance.playerIsPoped && GameManager.instance.levelComplited == true) {
+				ContinueGameValues ();
+			}
 		}
+    }
+
+    public void NewGameValues()
+    {
+        collectedGems = 0;
+        collectedCherrys = 0;
+        lifes = 3;
+    }
+
+    public void ContinueGameValues()
+    {
+        collectedGems = GameManager.instance.collectedGems;
+        collectedCherrys = GameManager.instance.collectedCherrys;
+        lifes = GameManager.instance.lifes;
+    }
+
+	public void LevelComplited(bool yes)
+	{
+		GameManager.instance.levelComplited = yes;
+		GameManager.instance.collectedGems = collectedGems;
+		GameManager.instance.collectedCherrys = collectedCherrys;
+		GameManager.instance.lifes = lifes;
 	}
 
-	public void GameOver(){
+    public void GameOver(){
 		if (lifes <= 0){
 				SceneManager.LoadScene("EndGame");
+				GameManager.instance.levelComplited = false;
 		}else if(lifes > 0){
-			SceneManager.LoadScene("Level_1");
-			GameManager.instance.needToRespawn = true;
+			SceneManager.LoadScene(thisScene.name);
+			GameManager.instance.playerIsPoped = true;
 			GameManager.instance.collectedGems = collectedGems;
 			GameManager.instance.collectedCherrys = collectedCherrys;
 			GameManager.instance.lifes = lifes;
 		}
-		LifeUp ();
 	}
 
 	public void LifeUp(){
@@ -88,16 +113,21 @@ public class GameController : MonoBehaviour {
 	public void AddCherry(){
 		collectedCherrys++;
 		CalculateItems ();
+		LifeUp ();
 	}
 
 	public void DebuffGem(){
 		collectedGems--;
 		CalculateItems ();
+        if(collectedGems <= 0)
+        {
+            collectedGems = 0;
+            CalculateItems();
+        }
 	}
 
 	public void GetHurt(){
 		lifes--;
-
 		CalculateItems ();
 		GameOver ();
 	}

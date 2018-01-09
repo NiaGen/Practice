@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
-	[SerializeField]
+    public static Door instance;
+
+    [SerializeField]
 	private GameObject doorOpen;
 	[SerializeField]
 	private GameObject doorClose;
@@ -46,5 +48,5 @@ public class Door : MonoBehaviour {
 	}
 	void DoorSet(bool open){
 		isOpened = open;
-	}
+    }
 }

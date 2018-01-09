@@ -118,10 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ff234d997fcbb439dca6494fc0e33f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 50180756341509676}
-  haveGems: {fileID: 0}
-  haveCherrys: {fileID: 0}
-  haveLifes: {fileID: 0}
 --- !u!114 &114767797100970188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27fdb41817aed964f91879ee5da08a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 50180756341509676}
   speed: 1
   jumpHeight: 3
   directionR: 1

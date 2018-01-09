@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour {
 
 	private Animator animator;
 	private bool canExit;
-//	public bool playerHurt;
+    private bool canWin;
+    public bool playerHurt;
 	private Rigidbody2D player;
 	GenericMovement genMov;
 
@@ -23,21 +24,61 @@ public class PlayerController : MonoBehaviour {
 
 	public void Update () {
 		if (canExit == true && Input.GetKeyDown (KeyCode.E)) {
+			GameController.instance.LevelComplited(true);
 			SceneManager.LoadScene("Level_2");
+
+		}
+        if (canWin == true && Input.GetKeyDown(KeyCode.E))
+        {
+            GameController.instance.LevelComplited(true);
+            SceneManager.LoadScene("Win_scene");
+
+        }
+    }
+
+/*	IEnumerator Test() {
+		while (true) {
+			Color color = player.GetComponent<SpriteRenderer> ().material.color;
+			for (float i = 1; i >= 0; i-=0.1f) {
+				color.a = i;
+				player.GetComponent<SpriteRenderer>().material.color = color;
+				yield return null;
+			}
+
+			yield return new WaitForSeconds(0.2f);
+
+			for (float i = 0; i < 1; i += 0.1f) {
+				color.a = i;
+				player.GetComponent<SpriteRenderer>().material.color = color;
+				yield return null;
+			}
+			yield return new WaitForSeconds(0.2f);
 		}
 	}
+*/
+
+//	IEnumerator coroutine () {
+//		while (playerHurt) {
+//				player.GetComponent<SpriteRenderer> ().color = Color.red;
+//				yield return new WaitForSeconds (5.0f);
+//				player.GetComponent<SpriteRenderer> ().color = Color.white;
+//		}
+//	}
 
 	public void OnCollisionEnter2D(Collision2D collider){
 		if (collider.gameObject.CompareTag ("Enemy")){
-//			playerHurt = true;
+//			StartCoroutine (Test());
+			playerHurt = true;
 			GameController.instance.GetHurt ();
 			animator.SetBool ("Player_hurt", true);
-//			Destroy(player.GetComponent<BoxCollider2D>());
-//			player.constraints = RigidbodyConstraints2D.FreezeAll;
+			//
+			Destroy(player.GetComponent<BoxCollider2D>());
+			player.constraints = RigidbodyConstraints2D.FreezeAll;
+			//
 			player.velocity = new Vector2 (player.velocity.x, 3.0f);
+
 		}
 		else{
-			GameController.instance.keyPressed = false;
 			animator.SetBool ("Player_hurt", false);
 		}
 	}
@@ -71,6 +112,10 @@ public class PlayerController : MonoBehaviour {
 		if (collider.name == "ExitDoor" && collider.GetComponent<Door> ().isOpened) {
 			canExit = true;
 		}
+        if (collider.name == "WinDoor" && collider.GetComponent<Door>().isOpened)
+        {
+            canWin = true;
+        }
 
-	}
+    }
 }

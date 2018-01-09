@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour {
 	public int collectedGems;
 	public int collectedCherrys;
 	public int lifes;
-	public bool needToRespawn;
+	public bool playerIsPoped;
+	public bool levelComplited;
 
 	void Awake(){
 		Singleton ();

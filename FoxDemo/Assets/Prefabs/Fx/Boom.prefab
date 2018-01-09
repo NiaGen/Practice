@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 95080650807637616}
   - component: {fileID: 58629631745371420}
   - component: {fileID: 250868760357173824}
-  - component: {fileID: 114654742069527112}
+  - component: {fileID: 114454150789232580}
   m_Layer: 0
   m_Name: Boom
   m_TagString: Untagged
@@ -76,7 +76,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114654742069527112
+--- !u!114 &114454150789232580
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -84,9 +84,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1859280583977364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6e7c0f21ba65484da5b6ffaaa89a2fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 82166fc932ab9cc4d97ab6f6edee0ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitToDestroy: 1
 --- !u!212 &212851839446201292
 SpriteRenderer:
   m_ObjectHideFlags: 1

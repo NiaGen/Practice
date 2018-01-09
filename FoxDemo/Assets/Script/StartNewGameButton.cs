@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartNewGameButton : MonoBehaviour {
 
 	public void LoadByIndex(int sceneIndex) {
-		GameManager.instance.needToRespawn = false;
+		GameManager.instance.playerIsPoped = false;
 		SceneManager.LoadScene (sceneIndex);
 	}
 }
